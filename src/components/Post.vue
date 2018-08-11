@@ -1,15 +1,23 @@
 <template>
     <div class="card">
-        <div class="card-content">
-            <div class="media">
+        <div class="card-header">
+            <div class="content">
                 <div class="media-content">
-                    <p class="title is-4">{{ post.author.username }}</p>
-                    <p class="subtitle is-6">{{ post.author.date_joined }}</p>
+                    <p class="title is-4">{{ post.author.first_name }} {{ post.author.last_name }}</p>
+                    <p class="subtitle is-6">@{{ post.author.username}}</p>
                 </div>
             </div>
+        </div>
+        <div class="card-content">
             <div class="content">
-                {{ post.message }}
-                <time>{{ post.timestamp }}</time>
+                <div class="is-size-5">
+                    {{ post.message }}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="card-footer-item">
+                <time class="is-size-6 has-text-right">{{ timestamp }}</time>
             </div>
         </div>
     </div>
@@ -17,6 +25,7 @@
 
 <script>
 import Vue from 'vue'
+import moment from 'moment'
 
 export default Vue.component('post', {
     props: {
@@ -24,13 +33,30 @@ export default Vue.component('post', {
             type: Object,
             required: true
         }
+    },
+    computed: {
+        timestamp: function() {
+            return moment(this.post.timestamp).calendar()
+        }
     }
 })
 </script>
 
 <style>
 .card {
-    margin-bottom: 1em;
-    margin-top: 1em;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.card-header {
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.card-footer-item {
+    justify-content: flex-start;
+    padding: 1rem 1.5rem;
+
 }
 </style>
