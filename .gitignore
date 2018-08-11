@@ -2,6 +2,7 @@
 node_modules
 /dist
 __pycache__/
+site/db.sqlite3
 
 # local env files
 /env/py
@@ -24,3 +25,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
