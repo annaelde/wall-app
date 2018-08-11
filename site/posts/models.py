@@ -1,5 +1,9 @@
+from django.conf import settings
 from django.db import models
+from django.contrib.auth import get_user_model
 
-# Create your models here.
+
 class Post(models.Model):
-    pass
+    message = models.CharField(max_length=1028)
+    timestamp = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
