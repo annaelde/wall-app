@@ -25,7 +25,7 @@ npm run build
 ```
 # First, activate the virual environment
 ./env/run/py
-python manage.py runserver --settings=settings.dev
+python manage.py runserver
 # Open a new console
 npm run serve
 ```
@@ -34,7 +34,7 @@ npm run serve
 # First, activate the virual environment
 source ./env/py/scripts/activate
 cd site
-python manage.py runserver --settings=settings.dev
+python manage.py runserver
 # Open a new console
 npm run serve
 ```
