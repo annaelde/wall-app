@@ -8,19 +8,14 @@
 
 <script>
 import Vue from 'vue'
-import { request } from '../services/request'
 import '../components/Post.vue'
 
-export default Vue.component('home', {
-    data: function() {
-        return {
-            posts: []
+export default Vue.component('feed', {
+    props: {
+        posts: {
+            type: Array,
+            required: true
         }
-    },
-    beforeCreate: function() {
-        request.get('posts/').then(({ data }) => {
-            this.posts = data
-        })
     }
 })
 </script>

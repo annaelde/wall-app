@@ -3,8 +3,7 @@
         <div class="card-header">
             <div class="content">
                 <div class="media-content">
-                    <p class="title is-4">{{ post.author.first_name }} {{ post.author.last_name }}</p>
-                    <p class="subtitle is-6">@{{ post.author.username}}</p>
+                    <p class="title is-5">{{ post.author }}</p>
                 </div>
             </div>
         </div>
