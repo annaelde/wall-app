@@ -1,29 +1,39 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="container" id="app">
+        <div class="navbar">
+            <div class="navbar-brand">
+                <div class="navbar-brand-title">
+                    <span class="icon has-text-info">
+                        <i class="fa fa-comments"></i>
+                    </span>
+                    Wall App
+                </div>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-item">
+                    <router-link to="/">Home</router-link>
+                </div>
+                <div class="navbar-item">
+                    <router-link to="/login">Login</router-link>
+                </div>
+            </div>
+        </div>
+        <router-view/>
     </div>
-    <router-view/>
-  </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
+@import '~bulma';
+@import '~font-awesome/css/font-awesome.css';
+
+.navbar-brand-title {
+    align-self: center;
     font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+    margin: 1em;
 }
 </style>

@@ -1,18 +1,24 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <section class="section home">
+        <post v-for="post in posts" :key="post.id" :post="post"></post>
+    </section>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Vue from 'vue'
+import request from '../services/request'
+import '../components/Post.vue'
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+export default Vue.component('home', {
+    data: function () {
+        return {
+            posts: []
+        }
+    },
+    beforeCreate: function () {
+        request.get('posts/').then(({ data }) => {
+            this.posts = data
+        })
+    }
+})
 </script>
