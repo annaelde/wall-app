@@ -25,8 +25,9 @@ npm run build
 ```
 # First, activate the virual environment
 ./env/run/py
-cd site
 python manage.py runserver --settings=settings.dev
+# Open a new console
+npm run serve
 ```
 ### Mac/Linux
 ```
@@ -34,6 +35,8 @@ python manage.py runserver --settings=settings.dev
 source ./env/py/scripts/activate
 cd site
 python manage.py runserver --settings=settings.dev
+# Open a new console
+npm run serve
 ```
 ### Run unit tests
 ```
