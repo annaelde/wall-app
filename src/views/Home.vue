@@ -1,21 +1,23 @@
 <template>
     <section class="section home">
-        <post v-for="post in posts" :key="post.id" :post="post"></post>
+        <div class="container">
+            <post v-for="post in posts" :key="post.id" :post="post"></post>
+        </div>
     </section>
 </template>
 
 <script>
 import Vue from 'vue'
-import request from '../services/request'
+import { request } from '../services/request'
 import '../components/Post.vue'
 
 export default Vue.component('home', {
-    data: function () {
+    data: function() {
         return {
             posts: []
         }
     },
-    beforeCreate: function () {
+    beforeCreate: function() {
         request.get('posts/').then(({ data }) => {
             this.posts = data
         })
