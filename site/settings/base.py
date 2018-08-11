@@ -43,11 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'posts',
     'users'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,3 +122,6 @@ REST_FRAMEWORK = {
 
 # Auth settings
 AUTH_USER_MODEL = 'users.User'
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)

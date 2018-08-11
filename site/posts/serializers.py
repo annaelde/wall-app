@@ -6,5 +6,5 @@ class PostSerializer(serializers.ModelSerializer):
     author = PublicUserSerializer(read_only=True)
     class Meta:
         model = Post
-        fields = ('message','timestamp','author')
+        fields = ('id', 'message','timestamp','author')
         depth = 1
