@@ -1,0 +1,8 @@
+{
+    "FILENAME": "dev.json",
+    "SECRET_KEY": "DEVELOPMENT-KEY",
+    "DATABASE_CONFIG": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3"
+    }
+}
