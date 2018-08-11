@@ -16,7 +16,7 @@
         </div>
         <div class="card-footer">
             <div class="card-footer-item">
-                <time class="is-size-6 has-text-right">{{ timestamp }}</time>
+                <time class="is-size-6">{{ timestamp }}</time>
             </div>
         </div>
     </div>
@@ -54,8 +54,7 @@ export default Vue.component('post', {
 }
 
 .card-footer-item {
-    justify-content: flex-start;
-    padding: 1rem 1.5rem;
-
+    justify-content: flex-start !important;
+    padding: 1rem 1.5rem !important;
 }
 </style>
