@@ -27,11 +27,11 @@ class UserView(viewsets.ModelViewSet):
         if self.action in ['update', 'partial_update']:
             permission_classes = [IsAuthenticated]
         else:
-            permission_classes = [IsAuthenticatedOrReadOnly]
+            permission_classes = [AllowAny]
         return [permission() for permission in permission_classes]
 
     def check_object_permissions(self, request, obj):
         super(UserView, self).check_object_permissions(request, obj)
-        if request.method not in SAFE_METHODS and request.user != obj:
+        if request.method not in ('GET', 'HEAD', 'OPTIONS', 'POST') and request.user != obj:
             self.permission_denied(request,
                                    message='User cannot edit this object.')
