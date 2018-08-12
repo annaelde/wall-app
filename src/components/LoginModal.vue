@@ -1,10 +1,10 @@
 <template>
     <div class="modal is-active">
-        <div class="modal-background" @click="$emit('close')"></div>
+        <div class="modal-background" @click="close()"></div>
         <div class="modal-card">
             <header v-show="!user" class="modal-card-head">
                 <p class="modal-card-title">Login</p>
-                <button class="delete" @click="$emit('close')" aria-label="close"></button>
+                <button class="delete" @click="close()" aria-label="close"></button>
             </header>
             <section v-show="!user" class="modal-card-body">
                 <form>
@@ -35,12 +35,12 @@
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                     </span>
                 </button>
-                <button class="button" @click="$emit('close')">Cancel</button>
+                <button class="button" @click="close()">Cancel</button>
                 <p v-show="error" class="help is-danger">Invalid login information.</p>
             </footer>
             <header v-show="user" class="modal-card-head">
                 <p class="modal-card-title">Welcome back!</p>
-                <button class="delete" @click="$emit('close')" aria-label="close"></button>
+                <button class="delete" @click="close()" aria-label="close"></button>
             </header>
             <section v-show="user" class="modal-card-body">
                 <div class="content">Glad to see you again, {{ username }}!</div>
@@ -104,6 +104,16 @@ export default Vue.component('login-modal', {
                     this.loading = false
                     this.error = true
                 })
+        },
+        reset: function() {
+            this.error = false
+            this.loading = false
+            this.username = ''
+            this.password = ''
+        },
+        close: function() {
+            this.reset()
+            this.$emit('close')
         }
     }
 })

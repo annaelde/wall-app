@@ -1,39 +1,42 @@
 <template>
-    <div class="modal is-active" @keypress.enter="registered ? success() : submit()" @keypress.esc="registered ? success() : $emit('close')">
-        <div class="modal-background" @click="registered ? success() : $emit('close')"></div>
+    <div class="modal is-active" @keypress.enter="registered ? close() : submit()" @keypress.esc="close()">
+        <div class="modal-background" @click="close()"></div>
         <div class="modal-card">
             <header v-show="!registered" class="modal-card-head">
                 <p class="modal-card-title">Register</p>
-                <button class="delete" @click="$emit('close')" aria-label="close"></button>
+                <button class="delete" @click="close()" aria-label="close"></button>
             </header>
             <section v-show="!registered" class="modal-card-body">
                 <form>
                     <div class="field">
                         <label class="label">Username</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="username" class="input" type="text" required>
+                            <input v-model="username" class="input" :class="{ 'is-danger': errors.username }" type="text" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-user"></i>
                             </span>
                         </div>
+                        <p v-show="errors.username" class="help is-danger">{{ errors.username }}</p>
                     </div>
                     <div class="field">
                         <label class="label">Email</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="email" class="input" type="email" required>
+                            <input v-model="email" class="input" :class="{ 'is-danger': errors.email }" type="email" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-key"></i>
                             </span>
+                            <p v-show="errors.email" class="help is-danger">{{ errors.email }}</p>
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Password</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="password" class="input" type="password" required>
+                            <input v-model="password" class="input" :class="{ 'is-danger': errors.password }" type="password" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-key"></i>
                             </span>
                         </div>
+                        <p v-show="errors.password" class="help is-danger">{{ errors.password }}</p>
                     </div>
                 </form>
             </section>
@@ -44,19 +47,18 @@
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                     </span>
                 </button>
-                <button class="button" @click="$emit('close')">Cancel</button>
-                <p v-if="!error" class="help">By clicking submit, you consent to receive emails from us.</p>
-                <p v-if="error" class="help is-danger">Invalid registration information.</p>
+                <button class="button" @click="close()">Cancel</button>
+                <p class="help">By clicking submit, you consent to receive emails from us.</p>
             </footer>
             <header v-show="registered" class="modal-card-head">
                 <p class="modal-card-title">Welcome to club!</p>
-                <button class="delete" @click="success()" aria-label="close"></button>
+                <button class="delete" @click="close()" aria-label="close"></button>
             </header>
             <section v-show="registered" class="modal-card-body">
                 <div class="content">Thanks for registering, {{ username }}! Check your inbox for a welcome email!</div>
             </section>
             <footer v-show="registered" class="modal-card-foot">
-                <button class="button is-success" @click="success()">Got it!</button>
+                <button class="button is-success" @click="close()">Got it!</button>
             </footer>
         </div>
     </div>
@@ -74,7 +76,11 @@ export default Vue.component('register-modal', {
             password: '',
             email: '',
             loading: false,
-            error: false,
+            errors: {
+                username: '',
+                password: '',
+                email: ''
+            },
             registered: false
         }
     },
@@ -82,6 +88,10 @@ export default Vue.component('register-modal', {
         ...mapActions(['login']),
         submit: function() {
             this.loading = true
+            // Reset errors
+            for (let key in this.errors) {
+                this.errors[key] = ''
+            }
             let user = {
                 username: this.username,
                 password: this.password,
@@ -90,21 +100,34 @@ export default Vue.component('register-modal', {
             request
                 .post('users/', user)
                 .then(({ data }) => {
-                    this.error = false
                     this.loading = false
                     this.registered = true
                 })
-                .catch(() => {
+                .catch(({ response }) => {
+                    // Add errors
+                    if (response.data) {
+                        for (let key in response.data) {
+                            if (this.errors.hasOwnProperty(key)) {
+                                this.errors[key] = response.data[key].join(' ')
+                                console.log(this.errors[key])
+                            }
+                        }
+                    }
                     this.loading = false
-                    this.error = true
                 })
         },
-        success: function() {
+        close: function() {
+            this.reset()
+            this.$emit('close')
+        },
+        reset: function() {
             this.username = ''
             this.email = ''
             this.password = ''
             this.registered = false
-            this.$emit('close')
+            for (let key in this.errors) {
+                this.errors[key] = ''
+            }
         }
     }
 })
@@ -112,5 +135,3 @@ export default Vue.component('register-modal', {
 
 <style>
 </style>
-
-
