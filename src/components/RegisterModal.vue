@@ -48,7 +48,8 @@
                     </span>
                 </button>
                 <button class="button" @click="close()">Cancel</button>
-                <p class="help">By clicking submit, you consent to receive emails from us.</p>
+                <p v-show="!errors.generic" class="help">By clicking submit, you consent to receive emails from us.</p>
+                <p v-show="errors.generic" class="help is-danger">{{ errors.generic }}</p>
             </footer>
             <header v-show="registered" class="modal-card-head">
                 <p class="modal-card-title">Welcome to club!</p>
@@ -79,7 +80,8 @@ export default Vue.component('register-modal', {
             errors: {
                 username: '',
                 password: '',
-                email: ''
+                email: '',
+                generic: ''
             },
             registered: false
         }
@@ -105,13 +107,14 @@ export default Vue.component('register-modal', {
                 })
                 .catch(({ response }) => {
                     // Add errors
-                    if (response.data) {
+                    if (typeof response.data === 'object') {
                         for (let key in response.data) {
                             if (this.errors.hasOwnProperty(key)) {
                                 this.errors[key] = response.data[key].join(' ')
-                                console.log(this.errors[key])
                             }
                         }
+                    } else {
+                        this.errors.generic = 'Server failure. Please try again later.'
                     }
                     this.loading = false
                 })
