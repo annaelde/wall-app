@@ -26,7 +26,7 @@
                             <button class="button is-primary" @click="show.post = true">Make a Post</button>
                         </div>
                         <div class="control">
-                            <button class="button" @click="logout()">Logout</button>
+                            <button class="button" @click="requestLogout()">Logout</button>
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
 <script>
 import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
-import { request } from './services/request'
+import { request, removeToken } from './services/request'
 import './views/Feed'
 import './components/LoginModal'
 import './components/RegisterModal'
@@ -78,6 +78,20 @@ export default Vue.component('app', {
     },
     methods: {
         ...mapActions(['logout']),
+        requestLogout: function() {
+            request
+                .delete('auth/')
+                .then((response) => {
+                    removeToken()
+                    this.logout()
+                })
+                .catch(() => {
+                    // Still delete the token locally,
+                    // even if we didn't succeed in deleting in on the server
+                    removeToken()
+                    this.logout()
+                })
+        },
         retrievePosts: function() {
             request.get('posts/').then(({ data }) => {
                 this.posts = data

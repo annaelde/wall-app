@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import (SAFE_METHODS, AllowAny,
                                         IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
-
 from .serializers import PrivateUserSerializer, PublicUserSerializer
 from .models import User
 

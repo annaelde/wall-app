@@ -80,7 +80,7 @@ export default Vue.component('login-modal', {
                 password: this.password
             }
             request
-                .post('login/', user)
+                .post('auth/', user)
                 .then(({ data }) => {
                     if (data.token) {
                         setToken(data.token)
