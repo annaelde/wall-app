@@ -13,3 +13,10 @@ DATABASES = {
     'default': get_secret('DATABASE_CONFIG', secrets)
 }
 CORS_ORIGIN_WHITELIST = get_secret('CORS_ORIGIN_WHITELIST', secrets)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FILE_PATH = '/tmp/emails'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
