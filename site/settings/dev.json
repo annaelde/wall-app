@@ -4,5 +4,8 @@
     "DATABASE_CONFIG": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": "db.sqlite3"
-    }
+    },
+    "CORS_ORIGIN_WHITELIST": [
+        "localhost:8080"
+    ]
 }

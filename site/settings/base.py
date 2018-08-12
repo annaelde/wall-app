@@ -34,7 +34,6 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'assets', 'static')
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -123,6 +122,3 @@ REST_FRAMEWORK = {
 
 # Auth settings
 AUTH_USER_MODEL = 'users.User'
-CORS_ORIGIN_WHITELIST = (
-    'localhost:8080',
-)

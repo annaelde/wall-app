@@ -1,12 +1,12 @@
 <template>
-    <div class="modal is-active" @keypress.enter="submit()" @keypress.esc="$emit('close')">
-        <div class="modal-background" @click="$emit('close')"></div>
+    <div class="modal is-active" @keypress.enter="registered ? success() : submit()" @keypress.esc="registered ? success() : $emit('close')">
+        <div class="modal-background" @click="registered ? success() : $emit('close')"></div>
         <div class="modal-card">
-            <header class="modal-card-head">
+            <header v-show="!registered" class="modal-card-head">
                 <p class="modal-card-title">Register</p>
                 <button class="delete" @click="$emit('close')" aria-label="close"></button>
             </header>
-            <section class="modal-card-body">
+            <section v-show="!registered" class="modal-card-body">
                 <form>
                     <div class="field">
                         <label class="label">Username</label>
@@ -37,7 +37,7 @@
                     </div>
                 </form>
             </section>
-            <footer class="modal-card-foot">
+            <footer v-show="!registered" class="modal-card-foot">
                 <button @click.prevent="submit()" class="button is-link">
                     <span>Submit</span>
                     <span v-if="loading" class="icon">
@@ -48,13 +48,23 @@
                 <p v-if="!error" class="help">By clicking submit, you consent to receive emails from us.</p>
                 <p v-if="error" class="help is-danger">Invalid registration information.</p>
             </footer>
+            <header v-show="registered" class="modal-card-head">
+                <p class="modal-card-title">Welcome to club!</p>
+                <button class="delete" @click="success()" aria-label="close"></button>
+            </header>
+            <section v-show="registered" class="modal-card-body">
+                <div class="content">Thanks for registering, {{ username }}! Check your inbox for a welcome email!</div>
+            </section>
+            <footer v-show="registered" class="modal-card-foot">
+                <button class="button is-success" @click="success()">Got it!</button>
+            </footer>
         </div>
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { request, setToken } from '../services/request'
+import { request } from '../services/request'
 import { mapActions } from 'vuex'
 
 export default Vue.component('register-modal', {
@@ -64,7 +74,8 @@ export default Vue.component('register-modal', {
             password: '',
             email: '',
             loading: false,
-            error: false
+            error: false,
+            registered: false
         }
     },
     methods: {
@@ -77,22 +88,23 @@ export default Vue.component('register-modal', {
                 email: this.email
             }
             request
-                .post('register/', user)
+                .post('users/', user)
                 .then(({ data }) => {
-                    if (data.token) {
-                        setToken(data.token)
-                        this.login({
-                            ...user,
-                            token: data.token
-                        })
-                        this.loading = false
-                        this.$router.push('/')
-                    }
+                    this.error = false
+                    this.loading = false
+                    this.registered = true
                 })
                 .catch(() => {
                     this.loading = false
                     this.error = true
                 })
+        },
+        success: function() {
+            this.username = ''
+            this.email = ''
+            this.password = ''
+            this.registered = false
+            this.$emit('close')
         }
     }
 })

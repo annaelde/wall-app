@@ -11,3 +11,4 @@ DEBUG = True
 DATABASES = {
     'default': get_secret('DATABASE_CONFIG', secrets)
 }
+CORS_ORIGIN_WHITELIST = get_secret('CORS_ORIGIN_WHITELIST', secrets)
