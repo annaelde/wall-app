@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
-from django.core import mail
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import (SAFE_METHODS, AllowAny,
@@ -22,13 +21,6 @@ class UserView(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        # Send welcome email
-        email = mail.EmailMessage('Welcome to Wall App!',
-                                  '%s, we\'re really happy you decided to join our website! Thanks!' % serializer.data[
-                                      'username'],
-                                  'welcome@wall-app.com',
-                                  [serializer.data['email']])
-        email.send(fail_silently=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def get_permissions(self):
