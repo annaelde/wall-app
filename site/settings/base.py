@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+
 def get_secret(setting, secrets):
     """
     Returns secret values from a JSON configuration file.
@@ -21,6 +22,7 @@ def get_secret(setting, secrets):
     except KeyError:
         error_msg = 'Set the {0} environment variable'.format(setting)
         raise ImproperlyConfigured(error_msg)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

@@ -13,7 +13,7 @@ class PostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     model = Post
-    
+
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update']:
             permission_classes = [IsAuthenticated]

@@ -14,7 +14,8 @@ if __name__ == '__main__':
     try:
         user = User.objects.get(username='guest')
     except:
-        user = User.objects.create(username='guest', password='password', email='')
+        user = User.objects.create(
+            username='guest', password='password', email='')
     # Create five posts
     for _ in range(5):
         Post.objects.create(message=post, author=user)
