@@ -23,7 +23,8 @@ class PrivateUserSerializer(serializers.ModelSerializer):
         try:
             validate_email(value)
         except ValidationError as e:
-            raise serializers.ValidationError(e)
+            raise serializers.ValidationError('Enter a valid email address.')
+        return value
 
     def validate_password(self, value):
         try:
