@@ -11,7 +11,7 @@
                     <div class="field">
                         <label class="label">Username</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="username" @keypress.enter="submit()" class="input" type="text" required>
+                            <input v-model="username" @keypress.enter="submit()" name="username" class="input" type="text" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-user"></i>
                             </span>
@@ -20,7 +20,7 @@
                     <div class="field">
                         <label class="label">Password</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="password" @keypress.enter="submit()" class="input" type="password" required>
+                            <input v-model="password" @keypress.enter="submit()" name="password" class="input" type="password" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-key"></i>
                             </span>
@@ -54,15 +54,9 @@
 <script>
 import Vue from 'vue'
 import { request, setToken } from '../services/request'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default Vue.component('login-modal', {
-    props: {
-        user: {
-            type: Object,
-            required: false
-        }
-    },
     data: function() {
         return {
             username: '',
@@ -70,6 +64,11 @@ export default Vue.component('login-modal', {
             loading: false,
             error: false
         }
+    },
+    computed: {
+        ...mapGetters({
+            user: 'GET_USER'
+        })
     },
     methods: {
         ...mapActions(['login']),
