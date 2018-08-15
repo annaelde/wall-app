@@ -13,20 +13,20 @@
                 <div class="navbar-item" v-show="!user">
                     <div class="field is-grouped">
                         <div class="control">
-                            <button class="button is-primary" @click="show.register = true">Sign Up</button>
+                            <button class="button is-primary" name="sign-up" @click="show.register = true">Sign Up</button>
                         </div>
                         <div class="control">
-                            <button class="button" @click="show.login = true">Login</button>
+                            <button class="button" name="login" @click="show.login = true">Login</button>
                         </div>
                     </div>
                 </div>
                 <div class="navbar-item" v-show="user">
                     <div class="field is-grouped">
                         <div class="control">
-                            <button class="button is-primary" @click="show.post = true">Make a Post</button>
+                            <button class="button is-primary" name="make-a-post" @click="show.post = true">Make a Post</button>
                         </div>
                         <div class="control">
-                            <button class="button" @click="requestLogout()">Logout</button>
+                            <button class="button" name="logout" @click="requestLogout()">Logout</button>
                         </div>
                     </div>
                 </div>
@@ -88,14 +88,19 @@ export default Vue.component('app', {
                 .catch(() => {
                     // Still delete the token locally,
                     // even if we didn't succeed in deleting in on the server
+                    console.error('Logout request failed.')
                     removeToken()
                     this.logout()
                 })
         },
         retrievePosts: function() {
-            request.get('posts/').then(({ data }) => {
-                this.posts = data
-            })
+            request.get('posts/')
+                .then(({ data }) => {
+                    this.posts = data
+                })
+                .catch(() => {
+                    console.error('Request for posts failed.')
+                })
         }
     }
 })
