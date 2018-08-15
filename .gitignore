@@ -3,7 +3,7 @@ node_modules
 /dist
 __pycache__/
 site/db.sqlite3
-
+coverage/
 # local env files
 /env/py
 .env.local
