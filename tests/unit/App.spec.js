@@ -15,38 +15,6 @@ localVue.use(Vuex)
 jest.mock('@/services/request')
 
 describe('App.vue', () => {
-    describe('when created', () => {
-        let store
-        beforeEach(() => {
-            store = new Vuex.Store({
-                getters: {
-                    GET_USER: () => null
-                }
-            })
-            shallowMount(App, {
-                store,
-                localVue
-            })
-        })
-
-        it('loads posts for the feed', () => {
-            expect(request.get).toHaveBeenCalledWith('posts/')
-        })
-
-        describe('when loading posts fails', () => {
-            beforeAll(() => {
-                request.get.mockRejectedValueOnce()
-                jest.spyOn(console, 'error').mockImplementation(() => {})
-            })
-
-            it('logs an error', async() => {
-                await flushPromises()
-                expect(request.get).toHaveBeenCalledWith('posts/')
-                expect(console.error).toHaveBeenCalled()
-            })
-        })
-    })
-
     describe('when logged in', () => {
         let wrapper, actions, store
         beforeEach(() => {

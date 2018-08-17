@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-        <feed :posts="posts" />
+        <feed ref="feed" />
         <login-modal v-show="show.login" :user="user" @close="show.login = false"></login-modal>
         <register-modal v-show="show.register" @close="show.register = false"></register-modal>
         <post-modal v-show="show.post" @close="show.post = false" @post-created="retrievePosts()"></post-modal>
@@ -51,7 +51,6 @@ import './components/PostModal'
 export default Vue.component('app', {
     data: function() {
         return {
-            posts: [],
             show: {
                 login: false,
                 register: false,
@@ -65,8 +64,6 @@ export default Vue.component('app', {
         })
     },
     created: function() {
-        // Get posts
-        this.retrievePosts()
         // Add an event listener to hide any modal open on escape
         window.addEventListener('keydown', ({ key }) => {
             if (key === 'Escape') {
@@ -78,10 +75,13 @@ export default Vue.component('app', {
     },
     methods: {
         ...mapActions(['logout']),
+        retrievePosts: function() {
+            this.$refs.feed.retrievePosts()
+        },
         requestLogout: function() {
             request
                 .delete('auth/')
-                .then((response) => {
+                .then(response => {
                     removeToken()
                     this.logout()
                 })
@@ -91,15 +91,6 @@ export default Vue.component('app', {
                     console.error('Logout request failed.')
                     removeToken()
                     this.logout()
-                })
-        },
-        retrievePosts: function() {
-            request.get('posts/')
-                .then(({ data }) => {
-                    this.posts = data
-                })
-                .catch(() => {
-                    console.error('Request for posts failed.')
                 })
         }
     }

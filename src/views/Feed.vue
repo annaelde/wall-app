@@ -4,7 +4,7 @@
             <post v-for="post in posts" :key="post.id" :post="post"></post>
         </div>
         <div v-else class="container">
-            <div class="notification is-info">
+            <div v-show="notify" class="notification is-info">
                 There's no posts to display!
             </div>
         </div>
@@ -13,13 +13,37 @@
 
 <script>
 import Vue from 'vue'
+import { request } from '../services/request'
 import '../components/Post.vue'
 
 export default Vue.component('feed', {
     props: {
-        posts: {
-            type: Array,
+        retrieve: {
+            type: Boolean,
             required: false
+        }
+    },
+    data: function() {
+        return {
+            posts: [],
+            notify: false
+        }
+    },
+    created: function() {
+        this.retrievePosts()
+    },
+    methods: {
+        retrievePosts: function() {
+            request
+                .get('posts/')
+                .then(({ data }) => {
+                    this.posts = data
+                    this.notify = false
+                })
+                .catch(() => {
+                    console.error('Request for posts failed.')
+                    this.notify = true
+                })
         }
     }
 })
