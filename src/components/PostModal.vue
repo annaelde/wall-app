@@ -10,7 +10,7 @@
                 <form>
                     <div class="field">
                         <div class="control has-icons-left has-icons-right">
-                            <textarea v-model="content" @keyup.ctrl.13="submit()" class="textarea" type="text" required></textarea>
+                            <textarea v-model="content" name="message" @keyup.ctrl.13="submit($event)" class="textarea" type="text" required></textarea>
                         </div>
                     </div>
                 </form>
@@ -43,18 +43,22 @@ export default Vue.component('post-modal', {
         }
     },
     methods: {
-        submit: function() {
+        submit: function(event) {
+            console.log(event)
             this.loading = true
             this.error = ''
             request
                 .post('posts/', { message: this.content })
-                .then(({ data }) => {
+                .then(() => {
                     this.$emit('post-created')
                     this.close(false)
                 })
-                .catch(({ response }) => {
-                    if (response.data && response.data.message) {
+                .catch(({ response } = {}) => {
+                    // If there's a specific error message, provide it
+                    if (response && response.data && response.data.message) {
                         this.error = response.data.message.join(' ')
+                    } else {
+                        this.error = 'Failed to submit post.'
                     }
                     this.loading = false
                 })
