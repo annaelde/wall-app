@@ -33,6 +33,10 @@ describe('App.vue', () => {
             })
         })
 
+        afterEach(() => {
+            wrapper.destroy()
+        })
+
         it('shows Make a Post and Logout buttons', () => {
             const login = wrapper.find('button[name=\'login\'')
             const signUp = wrapper.find('button[name=\'sign-up\']')
@@ -54,7 +58,7 @@ describe('App.vue', () => {
             expect(postModal.isVisible()).toBe(true)
         })
 
-        it('logs out when clicking the Logout button', async() => {
+        it('logs out when clicking the Logout button', async () => {
             const logoutButton = wrapper.find('button[name=\'logout\']')
             logoutButton.trigger('click')
             await flushPromises()
@@ -70,13 +74,17 @@ describe('App.vue', () => {
                 logoutButton.trigger('click')
             })
 
-            it('logs out locally', async() => {
+            afterEach(() => {
+                request.delete.mockReset()
+            })
+
+            it('logs out locally', async () => {
                 await flushPromises()
                 expect(actions.logout).toHaveBeenCalled()
                 expect(removeToken).toHaveBeenCalled()
             })
 
-            it('logs an error', async() => {
+            it('logs an error', async () => {
                 await flushPromises()
                 expect(console.error).toHaveBeenCalled()
             })
@@ -122,6 +130,10 @@ describe('App.vue', () => {
                 store,
                 localVue
             })
+        })
+
+        afterEach(() => {
+            wrapper.destroy()
         })
 
         it('shows Login and Sign Up buttons', () => {

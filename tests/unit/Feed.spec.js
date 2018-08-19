@@ -13,20 +13,35 @@ import {
 jest.mock('@/services/request')
 
 describe('Feed.vue', () => {
-    let wrapper
-    beforeEach(() => {
-        wrapper = shallowMount(Feed)
-    })
-
     describe('when created', () => {
+        let wrapper
+
+        beforeEach(() => {
+            wrapper = shallowMount(Feed)
+        })
+
+        afterEach(() => {
+            wrapper.destroy()
+        })
+
         it('try to load posts for the feed', () => {
             expect(request.get).toHaveBeenCalledWith('posts/')
         })
     })
 
     describe('when posts are loaded', () => {
-        beforeAll(() => {
-            request.get.mockResolvedValueOnce({ data: posts })
+        let wrapper
+
+        beforeEach(() => {
+            request.get.mockResolvedValueOnce({
+                data: posts
+            })
+            wrapper = shallowMount(Feed)
+        })
+
+        afterEach(() => {
+            wrapper.destroy()
+            request.get.mockReset()
         })
 
         it('should display posts', () => {
@@ -38,12 +53,20 @@ describe('Feed.vue', () => {
     })
 
     describe('when loading posts fails', () => {
-        beforeAll(() => {
+        let wrapper
+
+        beforeEach(() => {
             request.get.mockRejectedValueOnce()
             jest.spyOn(console, 'error').mockImplementation(() => {})
+            wrapper = shallowMount(Feed)
         })
 
-        it('logs an error', async() => {
+        afterEach(() => {
+            wrapper.destroy()
+            request.get.mockReset()
+        })
+
+        it('logs an error', async () => {
             await flushPromises()
             expect(request.get).toHaveBeenCalledWith('posts/')
             expect(console.error).toHaveBeenCalled()

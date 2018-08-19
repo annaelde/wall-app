@@ -17,6 +17,10 @@ describe('Post.vue', () => {
         })
     })
 
+    afterEach(() => {
+        wrapper.destroy()
+    })
+
     it('should display post message', () => {
         expect(wrapper.text()).toContain(posts[0].message)
     })

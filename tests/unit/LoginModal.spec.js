@@ -33,6 +33,10 @@ describe('LoginModal.vue', () => {
             })
         })
 
+        afterEach(() => {
+            wrapper.destroy()
+        })
+
         it('should display username field', () => {
             const username = wrapper.find('[name=\'username\']')
             expect(username.isVisible()).toBe(true)
@@ -86,14 +90,19 @@ describe('LoginModal.vue', () => {
 
             const buttons = wrapper.findAll('button')
             submit = buttons.filter(button => button.text() === 'Submit').at(0)
-            request.post.mockImplementationOnce(() => Promise.resolve({
+            request.post.mockResolvedValueOnce({
                 data: {
                     token: 'token'
                 }
-            }))
+            })
         })
 
-        it('should hide form', async() => {
+        afterEach(() => {
+            wrapper.destroy()
+            request.post.mockReset()
+        })
+
+        it('should hide form', async () => {
             submit.trigger('click')
             await flushPromises()
             const username = wrapper.find('[name=\'username\']')
@@ -102,7 +111,7 @@ describe('LoginModal.vue', () => {
             expect(password.isVisible()).toBe(false)
         })
 
-        it('should show welcome message', async() => {
+        it('should show welcome message', async () => {
             submit.trigger('click')
             await flushPromises()
             const message = wrapper.findAll('.modal-card-title')
@@ -110,13 +119,13 @@ describe('LoginModal.vue', () => {
             expect(message.isVisible()).toBe(true)
         })
 
-        it('should update store', async() => {
+        it('should update store', async () => {
             submit.trigger('click')
             await flushPromises()
             expect(actions.login).toHaveBeenCalled()
         })
 
-        it('should auto-close', async(done) => {
+        it('should auto-close', async (done) => {
             submit.trigger('click')
             await flushPromises()
             setTimeout(() => {
@@ -147,7 +156,12 @@ describe('LoginModal.vue', () => {
             request.post.mockRejectedValueOnce()
         })
 
-        it('should show error', async() => {
+        afterEach(() => {
+            wrapper.destroy()
+            request.post.mockReset()
+        })
+
+        it('should show error', async () => {
             const errorMessage = wrapper.find('.help.is-danger')
             expect(errorMessage.isVisible()).toBe(false)
             submit.trigger('click')
