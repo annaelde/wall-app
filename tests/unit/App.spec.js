@@ -116,6 +116,17 @@ describe('App.vue', () => {
                 expect(postModal.isVisible()).toBe(false)
             })
         })
+
+        describe('when a post is submitted', () => {
+            it('should refresh the feed', () => {
+                const postModal = wrapper.find({
+                    name: 'post-modal'
+                })
+                jest.spyOn(wrapper.vm, 'retrievePosts')
+                postModal.vm.$emit('post-created')
+                expect(wrapper.vm.retrievePosts).toHaveBeenCalled()
+            })
+        })
     })
 
     describe('when logged out', () => {
