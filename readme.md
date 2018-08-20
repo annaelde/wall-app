@@ -86,3 +86,7 @@ Run from site folder
 ```
 python3.6 manage.py test
 ```
+Run from root folder
+```
+npm run test:unit
+```
