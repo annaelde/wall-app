@@ -11,7 +11,7 @@
                     <div class="field">
                         <label class="label">Username</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="username" class="input" :class="{ 'is-danger': errors.username }" type="text" required>
+                            <input v-model="username" name="username" class="input" :class="{ 'is-danger': errors.username }" type="text" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-user"></i>
                             </span>
@@ -21,17 +21,17 @@
                     <div class="field">
                         <label class="label">Email</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="email" class="input" :class="{ 'is-danger': errors.email }" type="email" required>
+                            <input v-model="email" name="email" class="input" :class="{ 'is-danger': errors.email }" type="email" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-key"></i>
                             </span>
-                            <p v-show="errors.email" class="help is-danger">{{ errors.email }}</p>
                         </div>
+                        <p v-show="errors.email" class="help is-danger">{{ errors.email }}</p>
                     </div>
                     <div class="field">
                         <label class="label">Password</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input v-model="password" class="input" :class="{ 'is-danger': errors.password }" type="password" required>
+                            <input v-model="password" name="password" class="input" :class="{ 'is-danger': errors.password }" type="password" required>
                             <span class="icon is-small is-left">
                                 <i class="fa fa-key"></i>
                             </span>
@@ -52,7 +52,7 @@
                 <p v-show="errors.generic" class="help is-danger">{{ errors.generic }}</p>
             </footer>
             <header v-show="registered" class="modal-card-head">
-                <p class="modal-card-title">Welcome to club!</p>
+                <p class="modal-card-title">Welcome to the club!</p>
                 <button class="delete" @click="close()" aria-label="close"></button>
             </header>
             <section v-show="registered" class="modal-card-body">
@@ -101,13 +101,13 @@ export default Vue.component('register-modal', {
             }
             request
                 .post('users/', user)
-                .then(({ data }) => {
+                .then(() => {
                     this.loading = false
                     this.registered = true
                 })
-                .catch(({ response }) => {
+                .catch(({ response } = {}) => {
                     // Add errors
-                    if (typeof response.data === 'object') {
+                    if (response && typeof response.data === 'object') {
                         for (let key in response.data) {
                             if (this.errors.hasOwnProperty(key)) {
                                 this.errors[key] = response.data[key].join(' ')
