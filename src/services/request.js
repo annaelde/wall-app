@@ -6,9 +6,9 @@ let http = axios.create({
 })
 
 const request = {
-    get: async(url, payload = {}) => http.get(url, payload),
-    post: async(url, payload = {}) => http.post(url, payload),
-    delete: async(url, payload = {}) => http.delete(url, payload)
+    get: async (url, payload = {}) => http.get(url, payload),
+    post: async (url, payload = {}) => http.post(url, payload),
+    delete: async (url, payload = {}) => http.delete(url, payload)
 }
 
 function setToken(token) {

@@ -14,7 +14,6 @@ localVue.use(Vuex)
 jest.mock('@/services/request')
 
 describe('LoginModal.vue', () => {
-
     describe('when created', () => {
         let wrapper, actions, store
         beforeEach(() => {
