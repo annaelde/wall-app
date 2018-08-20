@@ -36,9 +36,11 @@ export default Vue.component('feed', {
         retrievePosts: function() {
             request
                 .get('posts/')
-                .then(({ data }) => {
-                    this.posts = data
-                    this.notify = false
+                .then(({ data } = {}) => {
+                    if (data) {
+                        this.posts = data
+                        this.notify = false
+                    }
                 })
                 .catch(() => {
                     console.error('Request for posts failed.')

@@ -81,7 +81,7 @@ export default Vue.component('app', {
         requestLogout: function() {
             request
                 .delete('auth/')
-                .then(response => {
+                .then(() => {
                     removeToken()
                     this.logout()
                 })

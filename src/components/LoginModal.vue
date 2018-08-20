@@ -80,8 +80,8 @@ export default Vue.component('login-modal', {
             }
             request
                 .post('auth/', user)
-                .then(({ data }) => {
-                    if (data.token) {
+                .then(({ data } = {}) => {
+                    if (data && data.token) {
                         setToken(data.token)
                         this.login({
                             ...user,
