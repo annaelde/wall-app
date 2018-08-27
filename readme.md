@@ -56,7 +56,7 @@ npm run build
 ```
 ## Running the project
 ### Windows
-First, activate the virual environment
+First, activate the virtual environment
 ```
 ./env/run/py
 ```
@@ -69,7 +69,7 @@ Run Vue dev server from root folder
 npm run serve
 ```
 ### Mac/Linux
-First, activate the virual environment
+First, activate the virtual environment
 ```
 source ./env/py/bin/activate
 ```
