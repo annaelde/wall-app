@@ -44,7 +44,6 @@ export default Vue.component('post-modal', {
     },
     methods: {
         submit: function(event) {
-            console.log(event)
             this.loading = true
             this.error = ''
             request
